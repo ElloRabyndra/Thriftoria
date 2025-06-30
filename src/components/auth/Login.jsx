@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "./Schema";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, useLocation } from "react-router";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -14,47 +14,67 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import ErrorMessage from "./ErrorMessage";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Login() {
   const navigate = useNavigate();
-  const [users, setUsers] = useState([]);
+  const location = useLocation();
+  const { login } = useAuth();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
-  // load data users 
-  useEffect(() => {
-    try {
-      const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
-      setUsers(storedUsers);
-    } catch (error) {
-      console.error("Error parsing users from localStorage", error);
-      setUsers([]);
-    }
-  }, []);
+  //jika user diarahkan dari ProtectedRoute
+  const from = location.state?.from?.pathname || "/";
   
   const {
     register,
     handleSubmit,
     reset,
+    setError,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(loginSchema),
   });
   
-
   const onSubmit = (data) => {
-    // Ambil data email dan password dari form
-    const { email, password } = data;
+    setIsSubmitting(true);
     
-    // Cek apakah email dan password cocok
-    const user = users.find((user) => user.email === email && user.password === password);
+    try {
+      //Lakukan login
+      const result = login(data);
 
-    // Reset form
-    reset();
-
-    // Alert sukses
-    user && alert("Login successful!");
-
-    // Redirect ke halaman ...
-    user && navigate("/");
+      if (result.success) {
+        // Reset form
+        reset();
+        
+        // Alert sukses
+        alert(result.message);
+        
+        // Redirect ke halaman yang dituju sebelumnya atau ke home
+        navigate(from, { replace: true });
+      } else {
+        // Set error berdasarkan kondisi
+        const { isEmailRegistered, validatePassword } = useAuth();
+        
+        if (!isEmailRegistered(data.email)) {
+          setError("email", {
+            type: "manual",
+            message: "Email not registered"
+          });
+        } else if (!validatePassword(data.email, data.password)) {
+          setError("password", {
+            type: "manual",
+            message: "Incorrect password"
+          });
+        } else {
+          alert(result.message);
+        }
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("Login failed. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -63,7 +83,7 @@ export default function Login() {
         <CardTitle>Login to your account</CardTitle>
         <CardAction>
           <Button variant="link">
-            <Link to="/Register">Register</Link>
+            <Link to="/register">Register</Link>
           </Button>
         </CardAction>
       </CardHeader>
@@ -78,6 +98,7 @@ export default function Login() {
                 type="email"
                 placeholder="Insert Email..."
                 autoComplete="off"
+                disabled={isSubmitting}
               />
               {errors.email && <ErrorMessage ErrorMessage={errors.email.message} />}
             </div>
@@ -91,11 +112,16 @@ export default function Login() {
                 type="password"
                 placeholder="Insert Password..."
                 autoComplete="off"
+                disabled={isSubmitting}
               />
               {errors.password && <ErrorMessage ErrorMessage={errors.password.message} />}
             </div>
-            <Button type="submit" className="w-full cursor-pointer">
-              Login
+            <Button 
+              type="submit" 
+              className="w-full cursor-pointer" 
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Logging in..." : "Login"}
             </Button>
           </div>
         </form>

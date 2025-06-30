@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "./Schema";
@@ -16,49 +16,58 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import ErrorMessage from "./ErrorMessage";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Register() {
   const navigate = useNavigate();
-  const [users, setUsers] = useState([]);
-  
-  // load data users 
-  useEffect(() => {
-    try {
-      const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
-      setUsers(storedUsers);
-    } catch (error) {
-      console.error("Error parsing users from localStorage", error);
-      setUsers([]);
-    }
-  }, []);
-
+  const { register: registerUser, isEmailRegistered } = useAuth();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const {
     register,
     handleSubmit,
     reset,
+    setError,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(registerSchema),
   });
 
   const onSubmit = (data) => {
-    // Ambil data email dan password dari form
-    const { email, password } = data;
-    const userData = { email, password };
+    setIsSubmitting(true);
+    
+    try {
+      // Cek apakah email sudah terdaftar
+      if (isEmailRegistered(data.email)) {
+        setError("email", {
+          type: "manual",
+          message: "Email already exists"
+        });
+        setIsSubmitting(false);
+        return;
+      }
 
-    // Simpan data ke localStorage
-    const updatedUsers = [...users, userData];
-    localStorage.setItem("users", JSON.stringify(updatedUsers));
+      // Register user baru
+      const result = registerUser(data);
 
-    // Reset form
-    reset();
-
-    // Alert sukses
-    alert("Registration successful!");
-
-    // Redirect ke halaman login
-    navigate("/Login");
+      if (result.success) {
+        // Reset form
+        reset();
+        
+        // Alert sukses
+        alert(result.message);
+        
+        // Redirect ke halaman login
+        navigate("/login");
+      } else {
+        alert(result.message);
+      }
+    } catch (error) {
+      console.error("Registration error:", error);
+      alert("Registration failed. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -78,6 +87,7 @@ export default function Register() {
                 type="email"
                 placeholder="Insert Email..."
                 autoComplete="off"
+                disabled={isSubmitting}
               />
 
               {errors.email && (
@@ -94,6 +104,7 @@ export default function Register() {
                 type="password"
                 placeholder="Insert Password..."
                 autoComplete="off"
+                disabled={isSubmitting}
               />
               {errors.password && (
                 <ErrorMessage ErrorMessage={errors.password.message} />
@@ -111,6 +122,7 @@ export default function Register() {
                 type="password"
                 placeholder="Insert Password Confirmation..."
                 autoComplete="off"
+                disabled={isSubmitting}
               />
               {errors.passwordConfirmation && (
                 <ErrorMessage
@@ -118,8 +130,12 @@ export default function Register() {
                 />
               )}
             </div>
-            <Button type="submit" className="w-full cursor-pointer">
-              Register
+            <Button 
+              type="submit" 
+              className="w-full cursor-pointer" 
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Registering..." : "Register"}
             </Button>
           </div>
         </form>
@@ -127,7 +143,7 @@ export default function Register() {
       <CardFooter className="flex-col gap-2">
         <CardDescription>
           Already have an account?{" "}
-          <Link to="/Login" className="font-medium underline">
+          <Link to="/login" className="font-medium underline">
             Login
           </Link>
         </CardDescription>
