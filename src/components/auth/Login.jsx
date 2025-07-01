@@ -19,7 +19,7 @@ import { useAuth } from "@/hooks/useAuth";
 export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { login } = useAuth();
+  const { login, isEmailRegistered, validatePassword } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   //jika user diarahkan dari ProtectedRoute
@@ -48,13 +48,11 @@ export default function Login() {
         
         // Alert sukses
         alert(result.message);
-        
+
         // Redirect ke halaman yang dituju sebelumnya atau ke home
         navigate(from, { replace: true });
       } else {
         // Set error berdasarkan kondisi
-        const { isEmailRegistered, validatePassword } = useAuth();
-        
         if (!isEmailRegistered(data.email)) {
           setError("email", {
             type: "manual",
@@ -66,12 +64,11 @@ export default function Login() {
             message: "Incorrect password"
           });
         } else {
-          alert(result.message);
+          console.error("Login error:", result.message);
         }
       }
     } catch (error) {
       console.error("Login error:", error);
-      alert("Login failed. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
