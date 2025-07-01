@@ -1,32 +1,28 @@
-import { useContext } from "react";
-import ToggleButton from "@/components/theme/ToggleButton";
 import { ThemeContext } from "@/context/ThemeContext";
-import { useAuth } from "@/hooks/useAuth";
+import React, { useContext, useState } from "react";
+import SideBar from "@/components/home/SideBar";
+import NavBar from "@/components/home/Navbar";
 
-export default function Home() {
+export default function Dashboard() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { theme } = useContext(ThemeContext);
-  const { user, logout } = useAuth();
 
   return (
-    <section
-      className={`${theme} flex items-center justify-center min-h-screen p-8 font-[Poppins]`}
-    >
-      <div className="absolute top-5 right-6">
-        <ToggleButton />
-      </div>
+      <div className={`${theme} min-h-screen font-[Poppins]`}>
+        {/* Navbar */}
+        <NavBar isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />
 
-      <div className="min-h-screen flex items-center justify-center text-center">
-        <div className="p-8 rounded-lg">
-          <h1 className="text-2xl font-bold mb-4">Welcome to Dashboard</h1>
-          <p className="mb-4">Hello, {user?.email}!</p>
-          <button
-            onClick={logout}
-            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-          >
-            Logout
-          </button>
+        {/* Main Layout */}
+        <div className="flex flex-row">
+          {/* Sidebar */}
+          <SideBar isMobileMenuOpen={isMobileMenuOpen} />
+
+          {/* Main Content */}
+          <main className="flex-1 py-6 px-5 lg:py-16 lg:px-24">
+            <div className="min-h-[200vh] mx-auto md:ml-56">
+            </div>
+          </main>
         </div>
       </div>
-    </section>
   );
 }
