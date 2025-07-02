@@ -1,5 +1,5 @@
 import { Card } from "../ui/card";
-import { ShoppingCart, User } from "lucide-react";
+import { ShoppingCart, User, Shirt, Footprints , Laptop } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useProducts } from "@/hooks/useProducts";
 
@@ -35,20 +35,20 @@ export default function ({isMobileMenuOpen, categories, changeCategories} ) {
             Categories
           </h3>
           <div className="space-y-2">
-            <button onClick={() => changeCategories(thriftCategories)} className={`${categories.length === thriftCategories.length ? "bg-secondary/50" : "hover:bg-secondary/50"} w-full flex items-center gap-3 p-3 rounded-lg text-primary cursor-pointer`}>
+            <button onClick={() => changeCategories(thriftCategories)} className={`${categories.length === thriftCategories.length ? "bg-secondary/50 text-primary" : "hover:bg-secondary/50"} w-full flex items-center gap-3 p-3 rounded-lg cursor-pointer`}>
               <i className="bx bx-grid-alt text-2xl"></i>
               <span>All</span>
             </button>
-            <button onClick={() => changeCategories(shirtsCategories)} className={`${categories.length === shirtsCategories.length ? "bg-secondary/50" : "hover:bg-secondary/50"} w-full flex items-center gap-3 p-3 rounded-lg text-primary cursor-pointer`}>
-              <i className="text-2xl text-primary bx bx-grid-alt"></i>
+            <button onClick={() => changeCategories(shirtsCategories)} className={`${categories.length === shirtsCategories.length ? "bg-secondary/50 text-primary" : "hover:bg-secondary/50"} w-full flex items-center gap-3 p-3 rounded-lg cursor-pointer`}>
+              <Shirt className="h-5 w-5" />
               <span>Shirts</span>
             </button>
-            <button onClick={() => changeCategories(shoesCategories)} className={`${categories.length === shoesCategories.length ? "bg-secondary/50" : "hover:bg-secondary/50"} w-full flex items-center gap-3 p-3 rounded-lg text-primary cursor-pointer`}>
-              <i className="text-2xl text-primary bx bx-grid-alt"></i>
+            <button onClick={() => changeCategories(shoesCategories)} className={`${categories.length === shoesCategories.length ? "bg-secondary/50 text-primary" : "hover:bg-secondary/50"} w-full flex items-center gap-3 p-3 rounded-lg cursor-pointer`}>
+              <Footprints className="h-5 w-5" />
               <span>Shoes</span>
             </button>
-            <button onClick={() => changeCategories(gadgetsCategories)} className={`${categories.length === gadgetsCategories.length ? "bg-secondary/50" : "hover:bg-secondary/50"} w-full flex items-center gap-3 p-3 rounded-lg text-primary cursor-pointer`}>
-              <i className="text-2xl text-primary bx bx-grid-alt"></i>
+            <button onClick={() => changeCategories(gadgetsCategories)} className={`${categories.length === gadgetsCategories.length ? "bg-secondary/50 text-primary" : "hover:bg-secondary/50"} w-full flex items-center gap-3 p-3 rounded-lg cursor-pointer`}>
+              <Laptop className="h-5 w-5" />
               <span>Gadget</span>
             </button>
           </div>
