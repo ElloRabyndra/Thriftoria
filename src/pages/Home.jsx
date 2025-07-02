@@ -22,7 +22,7 @@ export default function Dashboard() {
 
           {/* Main Content */}
           <main className="flex-1 py-6 px-5 lg:py-16 lg:px-24">
-            <div className="relative min-h-[200vh] mx-auto md:ml-56">
+            <div className="relative mx-auto md:ml-56">
               {/* <div className="mb-6">
                 <h1 className="text-2xl font-bold text-primary">All Thrifts</h1>
               </div> */}
