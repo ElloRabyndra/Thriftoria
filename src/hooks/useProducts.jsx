@@ -31,10 +31,9 @@ export const gadgetsCategories = [
   "mobile-accessories"
 ];
 
-
-
 export const useProducts = () => {
   const [products, setProducts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState(thriftCategories);
 
@@ -65,26 +64,56 @@ export const useProducts = () => {
     }
   };
 
+  // Fungsi untuk pencarian produk
+  const fetchSearchProducts = async (query) => {
+    setLoading(true);
+
+    try {
+      const response = await fetch(`https://dummyjson.com/products/search?q=${query}`);
+
+      if(!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setProducts(data.products || []);
+    } catch(error) {
+      console.error("Error searching products:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
 
   // Fungsi untuk mengubah kategori yang dipilih (hanya mengubah state)
   const changeCategories = (categories) => {
     setCategories(categories);
+    setSearchQuery("");
   };
+
+  // Fungsi pencarian produk
+  const searchProducts =  (query) => {
+    setCategories([]);
+    fetchSearchProducts(query);
+  }
 
 
   // fetch data ketika selectedCategory berubah
   useEffect(() => {
-    fetchAllProducts(categories);
+    categories.length > 0 && fetchAllProducts(categories);
   }, [categories]);
 
   return {
     products,
     loading,
     categories,
+    searchQuery,
+    setSearchQuery,
     thriftCategories,
     shirtsCategories,
     shoesCategories,
     gadgetsCategories,
     changeCategories,
+    searchProducts
   };
 };
