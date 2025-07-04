@@ -5,7 +5,7 @@ import SideBar from "@/components/home/SideBar";
 import NavBar from "@/components/home/Navbar";
 import ProductList from "@/components/cart/ProductList";
 
-export default function Dashboard() {
+export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { theme } = useContext(ThemeContext);
   const {
@@ -43,6 +43,7 @@ export default function Dashboard() {
           <div className="relative mx-auto md:ml-56">
             <ProductList products={products} loading={loading} />
           </div>
+         h1
         </main>
       </div>
     </div>
