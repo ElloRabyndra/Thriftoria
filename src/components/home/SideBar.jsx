@@ -1,3 +1,4 @@
+import { useLocation } from "react-router";
 import { Card } from "../ui/card";
 import { ShoppingCart, User, Shirt, Footprints , Laptop } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
@@ -5,15 +6,17 @@ import { useProducts } from "@/hooks/useProducts";
 
 export default function ({isMobileMenuOpen, categories, changeCategories} ) {
   const { logout } = useAuth();
+  const location = useLocation();
+  const isCartPage = location.pathname === "/cart";
   const {thriftCategories, shirtsCategories, shoesCategories, gadgetsCategories} = useProducts();
   return (
     <Card
-      className={`z-10 right-0 mt-3 md:right-auto md:translate-x-0 md:mt-0 shadow-xs border-none rounded-none w-60 border-r h-auto min-h-screen fixed top-16 transition-all duration-300 ${
+      className={`z-10 right-0 mt-3 md:right-auto md:translate-x-0 md:mt-0 shadow-xs border-none rounded-none w-60 border-r h-auto min-h-screen fixed top-16 transition-all duration-200 ease-in-out ${
         isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
       }`}
     >
       <div className="py-6 px-4 md:py-0">
-        <div className="space-y-3 mb-8">
+        <div className="space-y-3 mb-4">
           <h3 className="text-xs uppercase font-semibold mb-4 text-gray-500">
             User
           </h3>
@@ -21,7 +24,7 @@ export default function ({isMobileMenuOpen, categories, changeCategories} ) {
             <User className="h-5 w-5" />
             <span>Profile</span>
           </button>
-          <button className="relative w-full flex items-center gap-3 p-3 rounded-lg transition-all duration-200 hover:bg-secondary/50 cursor-pointer">
+          <button className={`${isCartPage ? "bg-secondary/50 text-primary" : "hover:bg-secondary/50"} relative w-full flex items-center gap-3 p-3 rounded-lg cursor-pointer`}>
             <ShoppingCart className="h-5 w-5" />
             <span>Cart</span>
             <span className="absolute -top-1 left-6 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
@@ -30,7 +33,7 @@ export default function ({isMobileMenuOpen, categories, changeCategories} ) {
           </button>
         </div>
 
-        <div className="mb-8">
+        <div className="mb-4">
           <h3 className="text-xs uppercase font-semibold mb-4 text-gray-500">
             Categories
           </h3>

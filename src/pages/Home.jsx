@@ -43,7 +43,6 @@ export default function Home() {
           <div className="relative mx-auto md:ml-56">
             <ProductList products={products} loading={loading} />
           </div>
-         h1
         </main>
       </div>
     </div>
