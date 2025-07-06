@@ -39,7 +39,7 @@ export default function Home() {
         />
 
         {/* Main Content */}
-        <main className="flex-1 py-6 px-5 lg:py-16 lg:px-24">
+        <main className="flex-1 py-6 px-5 lg:py-8 lg:px-24">
           <div className="relative mx-auto md:ml-56">
             <ProductList products={products} loading={loading} />
           </div>
