@@ -12,7 +12,7 @@ export default function NavBar({
 }) {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    searchProducts(searchQuery);
+    searchQuery.trim() && searchProducts(searchQuery);
     isMobileMenuOpen && setIsMobileMenuOpen(false);
     }
   return (

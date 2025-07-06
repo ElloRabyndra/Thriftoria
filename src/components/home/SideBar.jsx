@@ -11,9 +11,7 @@ export default function ({isMobileMenuOpen, categories, changeCategories} ) {
   const {thriftCategories, shirtsCategories, shoesCategories, gadgetsCategories} = useProducts();
   return (
     <Card
-      className={`z-10 right-0 mt-3 md:right-auto md:translate-x-0 md:mt-0 shadow-xs border-none rounded-none w-60 border-r h-auto min-h-screen fixed top-16 transition-all duration-200 ease-in-out ${
-        isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
-      }`}
+      className={`sidebar fixed z-10 right-0 bottom-0 top-16 mt-3 md:right-auto md:left-0 md:mt-0 shadow-xs border-none rounded-none w-60 border-r ${isMobileMenuOpen ? "sidebar-open" : "sidebar-close"}`}
     >
       <div className="py-6 px-4 md:py-0">
         <div className="space-y-3 mb-4">
