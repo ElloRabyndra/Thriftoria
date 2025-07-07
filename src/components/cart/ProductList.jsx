@@ -1,9 +1,9 @@
-import { Card } from "../ui/card";
-import Loading from "../ui/loading";
+import { useOutletContext } from "react-router";
 import ProductCard  from "./ProductCard";
 import RenderProduct from "./RenderProduct";
-// ProductGrid Component
-export default function ProductList({ products, loading }) {
+
+export default function ProductList() {
+  const { products, loading } = useOutletContext();
   if (loading) {
     return (
       <RenderProduct />

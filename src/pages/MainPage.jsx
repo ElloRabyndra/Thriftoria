@@ -3,9 +3,9 @@ import React, { useContext, useState } from "react";
 import { useProducts } from "@/hooks/useProducts";
 import SideBar from "@/components/home/SideBar";
 import NavBar from "@/components/home/Navbar";
-import ProductList from "@/components/cart/ProductList";
+import { Outlet } from "react-router";
 
-export default function Home() {
+export default function MainPage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { theme } = useContext(ThemeContext);
   const {
@@ -41,7 +41,7 @@ export default function Home() {
         {/* Main Content */}
         <main className="flex-1 py-6 px-5 lg:py-8 lg:px-24">
           <div className="relative mx-auto md:ml-56">
-            <ProductList products={products} loading={loading} />
+            <Outlet context={{products, loading}} />
           </div>
         </main>
       </div>

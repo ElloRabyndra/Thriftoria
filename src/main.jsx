@@ -9,7 +9,8 @@ import ThemeProvider from "./context/ThemeContext.jsx";
 import AuthPage from "./pages/AuthPage.jsx";
 import Register from "./components/auth/Register.jsx";
 import Login from "./components/auth/Login";
-import Home from "./pages/Home.jsx";
+import MainPage from "./pages/MainPage.jsx";
+import ProductList from "./components/cart/ProductList";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -21,7 +22,9 @@ createRoot(document.getElementById("root")).render(
               <Route path="/register" element={<AuthRedirect><Register/></AuthRedirect>} />
               <Route path="/login" element={<AuthRedirect><Login/></AuthRedirect>} />
             </Route>
-            <Route path="/" element={<ProtectedRoute><Home/></ProtectedRoute>} />
+            <Route path="/" element={<MainPage/>}>
+              <Route index element={<ProtectedRoute><ProductList/></ProtectedRoute>} />
+            </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>
