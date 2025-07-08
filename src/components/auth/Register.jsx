@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import ErrorMessage from "./ErrorMessage";
 import { useAuth } from "@/hooks/useAuth";
+import { toast } from "react-toastify";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -54,17 +55,17 @@ export default function Register() {
         // Reset form
         reset();
         
-        // Alert sukses
-        alert(result.message);
+        // Notif sukses
+        toast.success(result.message);
         
         // Redirect ke halaman login
         navigate("/login");
       } else {
-        alert(result.message);
+        toast.error(result.message);
       }
     } catch (error) {
       console.error("Registration error:", error);
-      alert("Registration failed. Please try again.");
+      toast.error("Registration failed. Please try again.");
     } finally {
       setIsSubmitting(false);
     }

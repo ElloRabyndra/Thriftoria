@@ -4,6 +4,7 @@ import "./Style.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 import { AuthProvider } from "./hooks/useAuth";
 import AuthRedirect from "./components/auth/AuthRedirect";
+import ToastWrapper from "./components/auth/ToastWrapper";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import ThemeProvider from "./context/ThemeContext.jsx";
 import AuthPage from "./pages/AuthPage.jsx";
@@ -27,6 +28,7 @@ createRoot(document.getElementById("root")).render(
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
+          <ToastWrapper/>
         </BrowserRouter>
       </ThemeProvider>
     </AuthProvider>

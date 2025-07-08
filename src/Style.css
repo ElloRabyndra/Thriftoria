@@ -53,6 +53,70 @@
   --shadow-lg: 0px 4px 8px -1px hsl(0 0% 0% / 0.10), 0px 4px 6px -2px hsl(0 0% 0% / 0.10);
   --shadow-xl: 0px 4px 8px -1px hsl(0 0% 0% / 0.10), 0px 8px 10px -2px hsl(0 0% 0% / 0.10);
   --shadow-2xl: 0px 4px 8px -1px hsl(0 0% 0% / 0.25);
+
+  /* Basic Colors */
+  --toastify-color-light: oklch(1.0000 0 0); /* --card */
+  --toastify-color-dark: oklch(0.2795 0.0368 260.0310); /* --card dark */
+  --toastify-color-info: oklch(0.7227 0.1920 149.5793); /* --primary */
+  --toastify-color-success: oklch(0.7227 0.1920 149.5793); /* --primary */
+  --toastify-color-warning: oklch(0.6959 0.1491 162.4796); /* --chart-2 */
+  --toastify-color-error: oklch(0.6368 0.2078 25.3313); /* --destructive */
+  --toastify-color-transparent: oklch(1.0000 0 0 / 0.7);
+  
+  /* Icon Colors */
+  --toastify-icon-color-info: var(--toastify-color-info);
+  --toastify-icon-color-success: var(--toastify-color-success);
+  --toastify-icon-color-warning: var(--toastify-color-warning);
+  --toastify-icon-color-error: var(--toastify-color-error);
+  
+  /* Container & Toast Dimensions */
+  --toastify-container-width: fit-content;
+  --toastify-toast-width: 320px;
+  --toastify-toast-offsetX: 8px;
+  --toastify-toast-offsetY: 12px;
+  --toastify-toast-top: max(var(--toastify-toast-offsetY), env(safe-area-inset-top));
+  --toastify-toast-right: max(var(--toastify-toast-offsetX), env(safe-area-inset-right));
+  --toastify-toast-left: max(var(--toastify-toast-offsetX), env(safe-area-inset-left));
+  --toastify-toast-bottom: max(var(--toastify-toast-offsetY), env(safe-area-inset-bottom));
+  
+  /* Toast Styling */
+  --toastify-toast-background: oklch(1.0000 0 0); /* --card */
+  --toastify-toast-padding: 14px;
+  --toastify-toast-min-height: 64px;
+  --toastify-toast-max-height: 800px;
+  --toastify-toast-bd-radius: 0.5rem; /* --radius */
+  --toastify-toast-shadow: 0px 4px 8px -1px hsl(0 0% 0% / 0.10), 0px 2px 4px -2px hsl(0 0% 0% / 0.10);
+  --toastify-toast-border: 1px solid var(--toastify-color-light);
+   /* --shadow-md */
+  
+  /* Font */
+  --toastify-font-family: DM Sans, sans-serif; /* --font-sans */
+  --toastify-z-index: 9999;
+  
+  /* Text Colors */
+  --toastify-text-color-light: oklch(0.5510 0.0234 264.3637); /* --muted-foreground */
+  --toastify-text-color-dark: oklch(0.8717 0.0093 258.3382); /* --foreground dark */
+  
+  /* Colored Theme Text Colors */
+  --toastify-text-color-info: oklch(1.0000 0 0); /* --primary-foreground */
+  --toastify-text-color-success: oklch(1.0000 0 0); /* --primary-foreground */
+  --toastify-text-color-warning: oklch(1.0000 0 0); /* --primary-foreground */
+  --toastify-text-color-error: oklch(1.0000 0 0); /* --destructive-foreground */
+  
+  /* Spinner Colors */
+  --toastify-spinner-color: oklch(0.5510 0.0234 264.3637); /* --muted-foreground */
+  --toastify-spinner-color-empty-area: oklch(0.9276 0.0058 264.5313); /* --border */
+  
+  /* Progress Colors */
+  --toastify-color-progress-light: oklch(0.7227 0.1920 149.5793); /* --primary */
+  --toastify-color-progress-dark: oklch(0.7729 0.1535 163.2231); /* --primary dark */
+  --toastify-color-progress-info: var(--toastify-color-info);
+  --toastify-color-progress-success: var(--toastify-color-success);
+  --toastify-color-progress-warning: var(--toastify-color-warning);
+  --toastify-color-progress-error: var(--toastify-color-error);
+  
+  /* Progress Background Opacity */
+  --toastify-color-progress-bgo: 0.2;
 }
 
 .dark {
@@ -102,6 +166,15 @@
   --shadow-lg: 0px 4px 8px -1px hsl(0 0% 0% / 0.10), 0px 4px 6px -2px hsl(0 0% 0% / 0.10);
   --shadow-xl: 0px 4px 8px -1px hsl(0 0% 0% / 0.10), 0px 8px 10px -2px hsl(0 0% 0% / 0.10);
   --shadow-2xl: 0px 4px 8px -1px hsl(0 0% 0% / 0.25);
+
+  --toastify-color-light: oklch(0.2795 0.0368 260.0310); /* --card dark */
+  --toastify-color-dark: oklch(0.2077 0.0398 265.7549); /* --background dark */
+  --toastify-color-transparent: oklch(0.2795 0.0368 260.0310 / 0.7);
+  --toastify-toast-background: oklch(0.2795 0.0368 260.0310); /* --card dark */
+  --toastify-text-color-light: oklch(0.8717 0.0093 258.3382); /* --foreground dark */
+  --toastify-text-color-dark: oklch(0.5510 0.0234 264.3637); /* --muted-foreground */
+  --toastify-spinner-color: oklch(0.8717 0.0093 258.3382); /* --foreground dark */
+  --toastify-spinner-color-empty-area: oklch(0.4461 0.0263 256.8018); /* --border dark */
 }
 
 @theme inline {

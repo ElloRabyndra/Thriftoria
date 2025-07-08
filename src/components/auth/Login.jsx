@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import ErrorMessage from "./ErrorMessage";
 import { useAuth } from "@/hooks/useAuth";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -46,8 +47,8 @@ export default function Login() {
         // Reset form
         reset();
         
-        // Alert sukses
-        alert(result.message);
+        // Notif sukses
+        toast.success(result.message);
 
         // Redirect ke halaman yang dituju sebelumnya atau ke home
         navigate(from, { replace: true });
@@ -65,10 +66,12 @@ export default function Login() {
           });
         } else {
           console.error("Login error:", result.message);
+          toast.error(result.message);
         }
       }
     } catch (error) {
       console.error("Login error:", error);
+      toast.error("Login failed!");
     } finally {
       setIsSubmitting(false);
     }
