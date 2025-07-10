@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { getProducts, getSearchProducts } from "@/service/api";
 
 // Daftar kategori thrift yang akan ditampilkan
 export const thriftCategories = [
@@ -42,13 +43,7 @@ export const useProducts = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("https://dummyjson.com/products?limit=0");
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      const data = await response.json();
+      const data = await getProducts();
       
       // Filter hanya produk dari kategori thrift
       const thriftProducts = data.products.filter(product => 
@@ -69,13 +64,7 @@ export const useProducts = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(`https://dummyjson.com/products/search?q=${query}`);
-
-      if(!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
+      const data = await getSearchProducts(query);
       setProducts(data.products || []);
     } catch(error) {
       console.error("Error searching products:", error);
