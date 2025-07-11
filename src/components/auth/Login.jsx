@@ -16,12 +16,14 @@ import { Label } from "@/components/ui/label";
 import ErrorMessage from "./ErrorMessage";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "react-toastify";
+import EyeButton from "../ui/eyeButton";
 
 export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const { login, isEmailRegistered, validatePassword } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   
   //jika user diarahkan dari ProtectedRoute
   const from = location.state?.from?.pathname || "/";
@@ -106,14 +108,21 @@ export default function Login() {
               <div className="flex items-center">
                 <Label htmlFor="password">Password</Label>
               </div>
-              <Input
-                {...register("password")}
-                id="password"
-                type="password"
-                placeholder="Insert Password..."
-                autoComplete="off"
-                disabled={isSubmitting}
-              />
+              <div className="relative">
+                <Input
+                  {...register("password")}
+                  id="password"
+                  type={`${showPassword ? "text" : "password"}`}
+                  placeholder="Insert Password..."
+                  autoComplete="off"
+                  disabled={isSubmitting}
+                />
+                <EyeButton 
+                  isSubmitting={isSubmitting} 
+                  showPassword={showPassword} 
+                  setShowPassword={setShowPassword} 
+                />
+              </div>
               {errors.password && <ErrorMessage ErrorMessage={errors.password.message} />}
             </div>
             <Button 

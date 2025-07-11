@@ -18,11 +18,14 @@ import { Label } from "@/components/ui/label";
 import ErrorMessage from "./ErrorMessage";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "react-toastify";
+import EyeButton from "../ui/eyeButton";
 
 export default function Register() {
   const navigate = useNavigate();
   const { register: registerUser, isEmailRegistered } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
   
   const {
     register,
@@ -90,7 +93,6 @@ export default function Register() {
                 autoComplete="off"
                 disabled={isSubmitting}
               />
-
               {errors.email && (
                 <ErrorMessage ErrorMessage={errors.email.message} />
               )}
@@ -99,14 +101,21 @@ export default function Register() {
               <div className="flex items-center">
                 <Label htmlFor="password">Password</Label>
               </div>
+              <div className="relative">
               <Input
                 {...register("password")}
                 id="password"
-                type="password"
+                type={`${showPassword ? "text" : "password"}`}
                 placeholder="Insert Password..."
                 autoComplete="off"
                 disabled={isSubmitting}
               />
+              <EyeButton
+                isSubmitting={isSubmitting}
+                showPassword={showPassword}
+                setShowPassword={setShowPassword}
+              />
+              </div>
               {errors.password && (
                 <ErrorMessage ErrorMessage={errors.password.message} />
               )}
@@ -117,14 +126,21 @@ export default function Register() {
                   Password Confirmation
                 </Label>
               </div>
-              <Input
-                {...register("passwordConfirmation")}
-                id="passwordConfirmation"
-                type="password"
-                placeholder="Insert Password Confirmation..."
-                autoComplete="off"
-                disabled={isSubmitting}
-              />
+              <div className="relative">
+                <Input
+                  {...register("passwordConfirmation")}
+                  id="passwordConfirmation"
+                  type={`${showPasswordConfirm ? "text" : "password"}`}
+                  placeholder="Insert Password Confirmation..."
+                  autoComplete="off"
+                  disabled={isSubmitting}
+                />
+                <EyeButton
+                  isSubmitting={isSubmitting}
+                  showPassword={showPasswordConfirm}
+                  setShowPassword={setShowPasswordConfirm}
+                />
+              </div>
               {errors.passwordConfirmation && (
                 <ErrorMessage
                   ErrorMessage={errors.passwordConfirmation.message}
