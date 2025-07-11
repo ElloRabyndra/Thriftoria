@@ -2,17 +2,16 @@ import { ShoppingCart, Eye } from "lucide-react";
 import { Card } from "../ui/card";
 
 // ProductCard Component
-export default function ProductCard({ product}) {
-  
+export default function ProductCard({ product, onAddToCart }) {
+  // Fungsi untuk format harga
   const formatPrice = (price) => {
-    return new Intl.NumberFormat('id-ID', {
+      return new Intl.NumberFormat('id-ID', {
       style: 'currency',
       currency: 'IDR',
       minimumFractionDigits: 0,
       maximumFractionDigits: 0
     }).format(price * 15000); 
   };
-
   return (
     <Card className="overflow-hidden hover:shadow-lg hover:-translate-y-2 transition-translate duration-300 ">
       <div className="relative overflow-hidden">
@@ -60,7 +59,8 @@ export default function ProductCard({ product}) {
         </div>
 
         <button 
-          className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground py-2 px-4 rounded-lg transition-all duration-200 hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground py-2 px-4 rounded-lg transition-all duration-200 hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          onClick={() => onAddToCart(product)}
         >
           <ShoppingCart className="h-4 w-4" />
           <span className="text-sm font-medium">

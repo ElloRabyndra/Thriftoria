@@ -1,10 +1,10 @@
-import { useLocation } from "react-router";
+import { Link, useLocation } from "react-router";
 import { Card } from "../ui/card";
 import { ShoppingCart, User, Shirt, Footprints , Laptop } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useProducts } from "@/hooks/useProducts";
 
-export default function ({isMobileMenuOpen, categories, changeCategories} ) {
+export default function ({isMobileMenuOpen, categories, changeCategories, cart} ) {
   const { logout } = useAuth();
   const location = useLocation();
   const isCartPage = location.pathname === "/cart";
@@ -22,13 +22,13 @@ export default function ({isMobileMenuOpen, categories, changeCategories} ) {
             <User className="h-5 w-5" />
             <span>Profile</span>
           </button>
-          <button className={`${isCartPage ? "bg-secondary/50 text-primary" : "hover:bg-secondary/50"} relative w-full flex items-center gap-3 p-3 rounded-lg cursor-pointer`}>
+          <Link to="/cart" className={`${isCartPage ? "bg-secondary/50 text-primary" : "hover:bg-secondary/50"} relative w-full flex items-center gap-3 p-3 rounded-lg cursor-pointer`}>
             <ShoppingCart className="h-5 w-5" />
             <span>Cart</span>
             <span className="absolute -top-1 left-6 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-              2
+              {cart.reduce((total, item) => total + item.quantity, 0)}
             </span>
-          </button>
+          </Link>
         </div>
 
         <div className="mb-4">
@@ -36,22 +36,22 @@ export default function ({isMobileMenuOpen, categories, changeCategories} ) {
             Categories
           </h3>
           <div className="space-y-2">
-            <button onClick={() => changeCategories(thriftCategories)} className={`${categories === thriftCategories || categories.length === 0 ? "bg-secondary/50 text-primary" : "hover:bg-secondary/50"} w-full flex items-center gap-3 p-3 rounded-lg cursor-pointer`}>
+            <Link to="/" onClick={() => changeCategories(thriftCategories)} className={`${!isCartPage && (categories === thriftCategories || categories.length === 0 ) ? "bg-secondary/50 text-primary" : "hover:bg-secondary/50"} w-full flex items-center gap-3 p-3 rounded-lg cursor-pointer`}>
               <i className="bx bx-grid-alt text-2xl"></i>
               <span>All</span>
-            </button>
-            <button onClick={() => changeCategories(shirtsCategories)} className={`${categories === shirtsCategories ? "bg-secondary/50 text-primary" : "hover:bg-secondary/50"} w-full flex items-center gap-3 p-3 rounded-lg cursor-pointer`}>
+            </Link>
+            <Link to="/" onClick={() => changeCategories(shirtsCategories)} className={`${!isCartPage && categories === shirtsCategories ? "bg-secondary/50 text-primary" : "hover:bg-secondary/50"} w-full flex items-center gap-3 p-3 rounded-lg cursor-pointer`}>
               <Shirt className="h-5 w-5" />
               <span>Shirts</span>
-            </button>
-            <button onClick={() => changeCategories(shoesCategories)} className={`${categories === shoesCategories ? "bg-secondary/50 text-primary" : "hover:bg-secondary/50"} w-full flex items-center gap-3 p-3 rounded-lg cursor-pointer`}>
+            </Link>
+            <Link to="/" onClick={() => changeCategories(shoesCategories)} className={`${!isCartPage && categories === shoesCategories ? "bg-secondary/50 text-primary" : "hover:bg-secondary/50"} w-full flex items-center gap-3 p-3 rounded-lg cursor-pointer`}>
               <Footprints className="h-5 w-5" />
               <span>Shoes</span>
-            </button>
-            <button onClick={() => changeCategories(gadgetsCategories)} className={`${categories === gadgetsCategories ? "bg-secondary/50 text-primary" : "hover:bg-secondary/50"} w-full flex items-center gap-3 p-3 rounded-lg cursor-pointer`}>
+            </Link>
+            <Link to="/" onClick={() => changeCategories(gadgetsCategories)} className={`${!isCartPage && categories === gadgetsCategories ? "bg-secondary/50 text-primary" : "hover:bg-secondary/50"} w-full flex items-center gap-3 p-3 rounded-lg cursor-pointer`}>
               <Laptop className="h-5 w-5" />
               <span>Gadget</span>
-            </button>
+            </Link>
           </div>
         </div>
 
