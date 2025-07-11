@@ -2,6 +2,7 @@ import { Menu, Search, X } from "lucide-react";
 import ToggleButton from "../theme/ToggleButton";
 import { Card } from "../ui/card";
 import { Input } from "../ui/input";
+import { useNavigate } from "react-router";
 
 export default function NavBar({ 
   isMobileMenuOpen, 
@@ -10,9 +11,11 @@ export default function NavBar({
   setSearchQuery, 
   searchProducts 
 }) {
+  const navigate = useNavigate();
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     searchQuery.trim() && searchProducts(searchQuery);
+    navigate("/");
     isMobileMenuOpen && setIsMobileMenuOpen(false);
     }
   return (
@@ -70,7 +73,7 @@ export default function NavBar({
                 <Search className="h-5 w-5 text-gray-400" />
               </div>
               <form onSubmit={handleSearchSubmit}>
-                <Input value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}  className="pl-10" placeholder="Cari produk thrift..." />
+                <Input value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}  className="pl-10" placeholder="Search for thrift products..." />
               </form>
             </div>
           </div>

@@ -37,6 +37,9 @@ export const useProducts = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState(thriftCategories);
+  const [cart, setCart] = useState([]);
+  const [hasInitializedCart, setHasInitializedCart] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   // Fungsi untuk mengambil semua produk 
   const fetchAllProducts = async (categories) => {
@@ -73,7 +76,6 @@ export const useProducts = () => {
     }
   }
 
-
   // Fungsi untuk mengubah kategori yang dipilih (hanya mengubah state)
   const changeCategories = (categories) => {
     setCategories(categories);
@@ -81,19 +83,59 @@ export const useProducts = () => {
   };
 
   // Fungsi pencarian produk
-  const searchProducts =  (query) => {
+  const searchProducts = (query) => {
     setCategories([]);
     fetchSearchProducts(query);
   }
-
 
   // fetch data ketika selectedCategory berubah
   useEffect(() => {
     categories.length > 0 && fetchAllProducts(categories);
   }, [categories]);
 
+  // Fungsi untuk menambahkan produk ke cart
+  const addToCart = (product) => {
+    if(cart.find(item => item.id === product.id)) {
+      setCart(cart.map(item => item.id === product.id ? 
+        {...item, quantity: item.quantity + 1} : item));
+    } else {
+      setCart([...cart, {id: product.id, title: product.title, category: product.category, thumbnail: product.thumbnail, price: product.price, quantity: 1}]);
+    }
+  }
+
+  // Fungsi untuk mengurangi quantity
+  const decreaseQuantity = (product) => {
+    const currentItem = cart.find(item => item.id === product.id);
+    if(currentItem && currentItem.quantity > 1) {
+      setCart(prevCart => prevCart.map(item => item.id === product.id ? 
+        {...item, quantity: item.quantity - 1} : item));
+    }  else {
+      setCart(prevCart => prevCart.filter(item => item.id !== product.id));
+    }
+  }
+
+  // Fungsi untuk menghapus produk dari cart
+  const removeFromCart = (product) => {
+    setCart(cart => cart.filter(item => item.id !== product.id));
+  }
+
+  // Load cart dari localStorage saat aplikasi dibuka
+  useEffect(() => {
+    setCart(JSON.parse(localStorage.getItem("cart")) || []);
+    setHasInitializedCart(true);
+  }, []);
+
+  // Simpan cart ke localStorage dan hitung total harga saat cart berubah
+  useEffect(() => {
+    if(!hasInitializedCart) return;
+    localStorage.setItem("cart", JSON.stringify(cart));
+    cart.length > 0 && setTotalPrice(cart.reduce((acc, item) => acc + item.price * item.quantity, 0));
+  }, [cart, hasInitializedCart]);
+
   return {
     products,
+    cart,
+    totalPrice,
     loading,
     categories,
     searchQuery,
@@ -103,6 +145,9 @@ export const useProducts = () => {
     shoesCategories,
     gadgetsCategories,
     changeCategories,
-    searchProducts
+    searchProducts,
+    addToCart,
+    decreaseQuantity,
+    removeFromCart
   };
 };
