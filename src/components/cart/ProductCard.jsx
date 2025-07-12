@@ -1,5 +1,6 @@
 import { ShoppingCart, Eye } from "lucide-react";
 import { Card } from "../ui/card";
+import { Link } from "react-router";
 
 // ProductCard Component
 export default function ProductCard({ product, onAddToCart }) {
@@ -14,7 +15,7 @@ export default function ProductCard({ product, onAddToCart }) {
   };
   return (
     <Card className="overflow-hidden hover:shadow-lg hover:-translate-y-2 transition-translate duration-300 ">
-      <div className="relative overflow-hidden">
+      <Link to={`/product/${product.id}`} className="relative overflow-hidden">
         <img 
           src={product.thumbnail} 
           alt={product.title}
@@ -23,16 +24,7 @@ export default function ProductCard({ product, onAddToCart }) {
             e.target.src = "https://via.placeholder.com/300x200?text=No+Image";
           }}
         />
-
-        {/* Detail icon */}
-        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-3">
-          <button 
-            className="p-2 bg-white rounded-full text-gray-800 hover:bg-gray-100 transition-colors"
-          >
-            <Eye className="h-4 w-4" />
-          </button>
-        </div>
-      </div>
+      </Link>
 
       <div className="p-4">
         <div className="mb-2">

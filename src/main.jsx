@@ -12,6 +12,7 @@ import Register from "./components/auth/Register.jsx";
 import Login from "./components/auth/Login";
 import MainPage from "./pages/MainPage.jsx";
 import ProductList from "./components/cart/ProductList";
+import ProductDetail from "./components/cart/ProductDetail";
 import CartList from "./components/cart/CartList";
 
 createRoot(document.getElementById("root")).render(
@@ -26,6 +27,7 @@ createRoot(document.getElementById("root")).render(
             </Route>
             <Route path="/" element={<MainPage/>}>
               <Route index element={<ProtectedRoute><ProductList/></ProtectedRoute>} />
+              <Route path="/product/:id" element={<ProtectedRoute><ProductDetail/></ProtectedRoute>} />
               <Route path="/cart" element={<ProtectedRoute><CartList/></ProtectedRoute>} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
