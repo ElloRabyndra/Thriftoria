@@ -14,6 +14,7 @@ import MainPage from "./pages/MainPage.jsx";
 import ProductList from "./components/cart/ProductList";
 import ProductDetail from "./components/cart/ProductDetail";
 import CartList from "./components/cart/CartList";
+import Profile from "./components/auth/Profile";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -26,6 +27,7 @@ createRoot(document.getElementById("root")).render(
               <Route path="/login" element={<AuthRedirect><Login/></AuthRedirect>} />
             </Route>
             <Route path="/" element={<MainPage/>}>
+              <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>} />
               <Route index element={<ProtectedRoute><ProductList/></ProtectedRoute>} />
               <Route path="/product/:id" element={<ProtectedRoute><ProductDetail/></ProtectedRoute>} />
               <Route path="/cart" element={<ProtectedRoute><CartList/></ProtectedRoute>} />
