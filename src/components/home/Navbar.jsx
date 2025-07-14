@@ -2,7 +2,7 @@ import { Menu, Search, X } from "lucide-react";
 import ToggleButton from "../theme/ToggleButton";
 import { Card } from "../ui/card";
 import { Input } from "../ui/input";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 export default function NavBar({ 
   isMobileMenuOpen, 
@@ -24,7 +24,7 @@ export default function NavBar({
         <div className="flex justify-between items-center h-16">
           {/* Logo/Brand */}
           <div className="flex">
-            <h1 className="text-2xl font-bold text-primary">Thriftoria</h1>
+            <Link to="/" className="text-2xl font-bold text-primary">Thriftoria</Link>
           </div>
 
           {/* Desktop Search Bar */}
