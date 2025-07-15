@@ -41,7 +41,25 @@ export const useProducts = () => {
   const [hasInitializedCart, setHasInitializedCart] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
 
-  // Fungsi untuk mengambil semua produk 
+  // fetch data ketika selectedCategory berubah
+  useEffect(() => {
+    categories.length > 0 && fetchAllProducts(categories);
+  }, [categories]);
+
+  // Load cart dari localStorage saat aplikasi dibuka
+  useEffect(() => {
+    setCart(JSON.parse(localStorage.getItem("cart")) || []);
+    setHasInitializedCart(true);
+  }, []);
+
+  // Simpan cart ke localStorage dan hitung total harga saat cart berubah
+  useEffect(() => {
+    if(!hasInitializedCart) return;
+    localStorage.setItem("cart", JSON.stringify(cart));
+    cart.length > 0 && setTotalPrice(cart.reduce((acc, item) => acc + item.price * item.quantity, 0));
+  }, [cart, hasInitializedCart]);
+
+  // Function untuk mengambil semua produk 
   const fetchAllProducts = async (categories) => {
     setLoading(true);
 
@@ -62,7 +80,7 @@ export const useProducts = () => {
     }
   };
 
-  // Fungsi untuk pencarian produk
+  // Function untuk pencarian produk
   const fetchSearchProducts = async (query) => {
     setLoading(true);
 
@@ -76,24 +94,19 @@ export const useProducts = () => {
     }
   }
 
-  // Fungsi untuk mengubah kategori yang dipilih (hanya mengubah state)
+  // Function untuk mengubah kategori yang dipilih (hanya mengubah state)
   const changeCategories = (categories) => {
     setCategories(categories);
     setSearchQuery("");
   };
 
-  // Fungsi pencarian produk
+  // Function pencarian produk
   const searchProducts = (query) => {
     setCategories([]);
     fetchSearchProducts(query);
   }
 
-  // fetch data ketika selectedCategory berubah
-  useEffect(() => {
-    categories.length > 0 && fetchAllProducts(categories);
-  }, [categories]);
-
-  // Fungsi untuk menambahkan produk ke cart
+  // Function untuk menambahkan produk ke cart
   const addToCart = (product) => {
     if(cart.find(item => item.id === product.id)) {
       setCart(cart.map(item => item.id === product.id ? 
@@ -103,7 +116,7 @@ export const useProducts = () => {
     }
   }
 
-  // Fungsi untuk mengurangi quantity
+  // Function untuk mengurangi quantity
   const decreaseQuantity = (product) => {
     const currentItem = cart.find(item => item.id === product.id);
     if(currentItem && currentItem.quantity > 1) {
@@ -114,23 +127,10 @@ export const useProducts = () => {
     }
   }
 
-  // Fungsi untuk menghapus produk dari cart
+  // Function untuk menghapus produk dari cart
   const removeFromCart = (product) => {
     setCart(cart => cart.filter(item => item.id !== product.id));
   }
-
-  // Load cart dari localStorage saat aplikasi dibuka
-  useEffect(() => {
-    setCart(JSON.parse(localStorage.getItem("cart")) || []);
-    setHasInitializedCart(true);
-  }, []);
-
-  // Simpan cart ke localStorage dan hitung total harga saat cart berubah
-  useEffect(() => {
-    if(!hasInitializedCart) return;
-    localStorage.setItem("cart", JSON.stringify(cart));
-    cart.length > 0 && setTotalPrice(cart.reduce((acc, item) => acc + item.price * item.quantity, 0));
-  }, [cart, hasInitializedCart]);
 
   return {
     products,
